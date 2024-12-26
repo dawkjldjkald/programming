@@ -1,48 +1,101 @@
-let x = 120;
-let y = 120;
-
-function setup() {
-    createCanvas(600,600);
+function setup()
+{
+	createCanvas(800, 800);
 }
 
-function draw() {
-    background(255,255,255);
-    
-    let offsetX = 0;
-    let offsetY = 0;
-
-    if (keyIsDown(87)) {
-        y -= 5;
-        offsetY = -5;
-    }
-
-    if (keyIsDown(65)) {
-        x -= 5;
-        offsetX = -5;
-    }
-
-    if (keyIsDown(83)) {
-        y += 5;
-        offsetY = 5;
-    }
-
-    if (keyIsDown(68)) {
-        x += 5;
-        offsetX = 5;
-    }
-    
-    drawChar(x,y,offsetX,offsetY);
+let character = {
+  xPos: 100,
+  yPos: 600,
+  speed:5,
+  canMove: true,
+  Csize:40
 }
 
-function drawChar(x,y,offsetX,offsetY) {
-    fill('brown');
-    ellipse(x + 50, y + 50, 100, 100);
-    ellipse(x + 310, y + 50, 100, 100);
-    ellipse(x + 180, y + 180, 300, 300);
-    ellipse(x + 180, y + 240, 170, 140);
-    fill(0);
-    ellipse(x + 110, y + 140, 20, 30);
-    ellipse(x + 250, y + 140, 20, 30);
-    ellipse(x + 180, y + 200, 50, 30);
+let gameObjects = {
+ sceneryObjects: [
+      function drawCloud()
+        {
+          noStroke()
+          fill(255)
+          circle(cloud.x_pos, cloud.y_pos, 70)
+          circle(cloud.x_pos - 40, cloud.y_pos + 5, 60)
+          circle(cloud.x_pos + 40, cloud.y_pos + 2, 65)
+        },
+      
+  function drawMountain() 
+        {
+            noStroke();
+            fill ("#696969");
+            triangle(550,150,350,700,750,700);
+        },
+
+        function drawGround()
+        {
+            fill ("#32CD32")
+            rect(0, 700, 800, 100)
+        },
+
+  function drawCanyon() 
+        {
+            fill("#8B4513")
+            rect(210, 700, 100)
+        }
+ ]
+}
+
+
+
+function drawCharacter()
+{
+  fill("purple")
+  rect(character.xPos, character.yPos, character.Csize)
+  fill("#FFA07A")
+  ellipse(character.xPos+20, character.yPos - 15, 33)
+  rect(character.xPos+5, character.yPos + 40, 10, 20)
+  rect(character.xPos+25, character.yPos + 40, 10, 20)
+  rect(character.xPos-20, character.yPos, 20, 10)
+  rect(character.xPos+40, character.yPos, 20, 10)
+  fill(255)
+  ellipse(character.xPos+16, character.yPos-20, 10)
+  ellipse(character.xPos+26, character.yPos-20, 10)
+  fill(0)
+  ellipse(character.xPos+16, character.yPos-20, 5)
+  ellipse(character.xPos+26, character.yPos-20, 5)
+  
+  
+}
+
+function draw()
+{
+   background("#87CEEB")
+   gameObjects.sceneryObjects.forEach(obj => obj())
+    drawCharacter()
+}
+
+function Move()
+{
+  
+  if (keyIsDown(65) && character.xPos > 0)
+  {   
+    character.xPos = character.xPos - 8
     
+    
+  }
+
+  if (keyIsDown(68) && character.xPos < 800)
+  {    
+     character.xPos = character.xPos + 8
+  }
+  
+  if(keyIsDown(32) && character.yPos > 660) 
+  {
+    speed = 13
+    character.yPos = character.yPos - speed
+}
+  
+  if(character.yPos < 660) 
+  {
+    speed = speed - 0.5
+    character.yPos = character.yPos - speed
+  }
 }
